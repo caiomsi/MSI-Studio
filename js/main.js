@@ -52,43 +52,6 @@
     revealTargets.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---- Scroll-driven sparkles ---- */
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var descend = document.querySelector('.star-descend');
-  var heroStar = document.querySelector('.star-hero');
-  if (!reduceMotion && (descend || heroStar)) {
-    var clamp = function (n) { return n < 0 ? 0 : n > 1 ? 1 : n; };
-    var ticking = false;
-    var updateStars = function () {
-      ticking = false;
-      var y = window.scrollY || window.pageYOffset || 0;
-      var vh = window.innerHeight || 1;
-      var max = (document.documentElement.scrollHeight - vh) || 1;
-      var pageP = clamp(y / max);
-      var heroP = clamp(y / vh);
-
-      if (descend) {
-        // start ~12vh, glide to ~86vh down the viewport; drift + rotate as it falls
-        descend.style.setProperty('--ty', (12 + pageP * 74).toFixed(2));
-        descend.style.setProperty('--tx', (Math.sin(pageP * Math.PI * 2) * 42).toFixed(2));
-        descend.style.setProperty('--rot', (pageP * 540).toFixed(1));
-      }
-      if (heroStar) {
-        // drift across the hero and brighten its halo as scrolling begins
-        heroStar.style.setProperty('--tx', (heroP * -90).toFixed(2));
-        heroStar.style.setProperty('--ty', (heroP * 70).toFixed(2));
-        heroStar.style.setProperty('--rot', (heroP * 220).toFixed(1));
-        heroStar.style.setProperty('--lit', heroP.toFixed(3));
-      }
-    };
-    var requestStars = function () {
-      if (!ticking) { ticking = true; window.requestAnimationFrame(updateStars); }
-    };
-    window.addEventListener('scroll', requestStars, { passive: true });
-    window.addEventListener('resize', requestStars, { passive: true });
-    updateStars();
-  }
-
   /* ---- Present the Process section full screen ---- */
   var presentBtn = document.getElementById('presentBtn');
   var processSection = document.getElementById('process');

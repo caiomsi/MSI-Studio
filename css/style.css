@@ -170,8 +170,7 @@ ul { list-style: none; }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* =========================== HERO =========================== */
-.hero { position: relative; max-width: var(--maxw); margin: 0 auto; padding: clamp(3.5rem, 9vw, 7rem) var(--gutter) clamp(2.5rem, 5vw, 4rem); }
-.hero-grid, .hero-stats { position: relative; z-index: 1; }
+.hero { max-width: var(--maxw); margin: 0 auto; padding: clamp(3.5rem, 9vw, 7rem) var(--gutter) clamp(2.5rem, 5vw, 4rem); }
 .hero-title {
   font-family: var(--font-display); font-weight: 800;
   font-size: clamp(2.7rem, 7.5vw, 6rem);
@@ -207,47 +206,6 @@ ul { list-style: none; }
   background: var(--grad-accent); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
 .stat-label { font-family: var(--font-mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); margin-top: .5rem; display: block; }
-
-/* =========================== STARS (scroll-driven) =========================== */
-/* Two-element nest: wrapper takes the scroll transform, glyph runs idle twinkle */
-.star { pointer-events: none; will-change: transform; }
-.star-glyph {
-  display: inline-block; line-height: 1;
-  background: var(--grad-accent);
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px var(--glow)) drop-shadow(0 0 22px var(--glow-cyan));
-  animation: twinkle 3.6s ease-in-out infinite;
-}
-
-/* Descender: fixed to the viewport, glides down the page as you scroll */
-.star-descend {
-  position: fixed; top: 0; left: 78%; z-index: 5;
-  font-size: clamp(22px, 2.4vw, 34px);
-  transform: translate(calc(var(--tx, 0) * 1px), calc(var(--ty, 0) * 1vh)) rotate(calc(var(--rot, 0) * 1deg));
-}
-
-/* Hero star: anchored in the hero, drifts + lights it up as scroll begins */
-.star-hero {
-  position: absolute; top: 12%; right: 9%; z-index: 0;
-  font-size: clamp(40px, 6vw, 72px);
-  transform: translate(calc(var(--tx, 0) * 1px), calc(var(--ty, 0) * 1px)) rotate(calc(var(--rot, 0) * 1deg));
-}
-.star-hero .star-glyph { animation-delay: 1.2s; }
-/* Soft halo that brightens as you start scrolling — "lights up" the hero */
-.star-hero::before {
-  content: ""; position: absolute; left: 50%; top: 50%;
-  width: 340px; height: 340px; margin: -170px 0 0 -170px; border-radius: 50%;
-  background: radial-gradient(circle, var(--glow) 0%, var(--glow-cyan) 35%, transparent 70%);
-  opacity: calc(.18 + var(--lit, 0) * .82);
-  transform: scale(calc(.7 + var(--lit, 0) * .8));
-  transition: opacity .15s linear, transform .15s linear;
-  z-index: -1;
-}
-
-@keyframes twinkle {
-  0%, 100% { transform: scale(1);    opacity: .85; }
-  50%      { transform: scale(1.18); opacity: 1; }
-}
 
 /* =========================== MARQUEE =========================== */
 .marquee {
