@@ -1,0 +1,21 @@
+name: Check links
+
+# Verifies internal + external links aren't broken. Runs on every push to master
+# and weekly (external sites can rot over time). Non-blocking informational check.
+on:
+  push:
+    branches: [master]
+  schedule:
+    - cron: "0 14 * * 1"   # Mondays 14:00 UTC
+  workflow_dispatch:
+
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run lychee link checker
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --verbose "index.html"
+          fail: false
