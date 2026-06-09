@@ -37,7 +37,7 @@
 
   /* ---- Scroll-reveal via IntersectionObserver ---- */
   var revealTargets = document.querySelectorAll(
-    '.section-head, .work-card, .service, .about-text, .about-cred, .contact-intro, .contact-form, .hero-stats'
+    '.section-head, .work-card, .step, .service, .about-text, .about-cred, .contact-intro, .contact-form, .hero-stats'
   );
   if ('IntersectionObserver' in window && revealTargets.length) {
     revealTargets.forEach(function (el) { el.classList.add('fade-in'); });
