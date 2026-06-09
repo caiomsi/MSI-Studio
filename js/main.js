@@ -52,6 +52,27 @@
     revealTargets.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---- Present the Process section full screen ---- */
+  var presentBtn = document.getElementById('presentBtn');
+  var processSection = document.getElementById('process');
+  if (presentBtn && processSection && processSection.requestFullscreen) {
+    presentBtn.addEventListener('click', function () {
+      if (document.fullscreenElement) {
+        if (document.exitFullscreen) { document.exitFullscreen(); }
+      } else {
+        processSection.requestFullscreen().catch(function () {});
+      }
+    });
+    document.addEventListener('fullscreenchange', function () {
+      var on = document.fullscreenElement === processSection;
+      presentBtn.innerHTML = '<span class="present-ico" aria-hidden="true">⛶</span> '
+        + (on ? 'Exit full screen' : 'Present full screen');
+    });
+  } else if (presentBtn) {
+    // No Fullscreen API support — hide the affordance rather than show a dead button
+    presentBtn.style.display = 'none';
+  }
+
   /* ---- Footer year ---- */
   var year = document.getElementById('year');
   if (year) { year.textContent = new Date().getFullYear(); }

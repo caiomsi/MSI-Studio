@@ -267,68 +267,154 @@ ul { list-style: none; }
 .work-url::before { content: "↗ "; color: var(--card-accent); }
 
 /* =========================== PROCESS =========================== */
-.process { position: relative; }
+/* Full-height stage — fills the viewport so it can be presented on its own */
+.process {
+  position: relative;
+  min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.process-head { max-width: 760px; }
+
+/* "Present full screen" affordance */
+.present-btn {
+  margin-top: 1.7rem;
+  display: inline-flex; align-items: center; gap: .55rem;
+  font-family: var(--font-mono); font-size: .8rem; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--accent-2); cursor: pointer;
+  padding: .62rem 1.05rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong); background: rgba(255,255,255,.02);
+  transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.present-btn:hover {
+  color: #fff; border-color: var(--accent); background: var(--accent-soft);
+  transform: translateY(-2px); box-shadow: 0 10px 30px -10px var(--glow);
+}
+.present-ico { font-size: 1.05rem; line-height: 1; }
+
 .process-grid {
   display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: clamp(1rem, 2.2vw, 1.5rem);
+  gap: clamp(1rem, 2.4vw, 1.9rem);
   position: relative;
+  margin-top: clamp(2rem, 5vw, 4rem);
 }
-/* Connector line threading the step badges (desktop) */
+/* Connector line — animated flowing gradient threading the badges */
 .process-grid::before {
-  content: ""; position: absolute; left: 6%; right: 6%; top: 34px; height: 2px;
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 55%, transparent), color-mix(in srgb, var(--accent-2) 55%, transparent), transparent);
+  content: ""; position: absolute; left: 6%; right: 6%; top: 68px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent) 18%, var(--accent-2) 50%, var(--accent) 82%, transparent);
+  background-size: 220% 100%;
+  box-shadow: 0 0 14px var(--glow);
+  animation: lineFlow 4.5s linear infinite;
   z-index: 0;
 }
+/* A pulse of light that travels along the connector, left → right */
+.process-grid::after {
+  content: ""; position: absolute; top: 63px; left: 6%; width: 12px; height: 12px;
+  border-radius: 50%; background: #fff;
+  box-shadow: 0 0 18px 5px var(--glow), 0 0 8px 2px var(--accent-2);
+  animation: dotTravel 4.5s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes lineFlow { from { background-position: 220% 0; } to { background-position: 0 0; } }
+@keyframes dotTravel {
+  0%   { left: 6%;  opacity: 0; transform: scale(.6); }
+  8%   { opacity: 1; transform: scale(1); }
+  92%  { opacity: 1; transform: scale(1); }
+  100% { left: calc(94% - 12px); opacity: 0; transform: scale(.6); }
+}
+
 .step {
   position: relative; z-index: 1;
-  padding: clamp(1.5rem, 2.6vw, 2.1rem) clamp(1.3rem, 2.2vw, 1.7rem);
+  padding: clamp(1.6rem, 2.8vw, 2.4rem) clamp(1.3rem, 2.2vw, 1.9rem);
   border-radius: var(--radius);
   background: linear-gradient(180deg, var(--surface), var(--bg-2));
   border: 1px solid var(--border);
-  transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
 }
 .step:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
   border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-  box-shadow: 0 26px 56px -28px var(--glow);
+  box-shadow: 0 28px 60px -28px var(--glow);
 }
 .step-badge {
-  width: 56px; height: 56px; border-radius: 50%;
-  display: grid; place-items: center; margin-bottom: 1.4rem;
-  font-family: var(--font-display); font-weight: 800; font-size: 1.3rem;
+  position: relative;
+  width: 72px; height: 72px; border-radius: 50%;
+  display: grid; place-items: center; margin-bottom: 1.5rem;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.65rem;
   color: var(--accent-2);
   background: radial-gradient(circle at 32% 28%, var(--surface-2), var(--bg));
   border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
   box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 8%, transparent),
               0 8px 24px -8px var(--glow), inset 0 1px 0 rgba(255,255,255,.08);
+  animation: badgeFloat 5s ease-in-out infinite;
 }
+/* Radar-ping ring emanating from each badge */
+.step-badge::before {
+  content: ""; position: absolute; inset: -5px; border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  animation: ringPing 2.8s ease-out infinite;
+}
+.step:nth-child(2) .step-badge { animation-delay: .5s; }
+.step:nth-child(2) .step-badge::before { animation-delay: .7s; }
+.step:nth-child(3) .step-badge { animation-delay: 1s; }
+.step:nth-child(3) .step-badge::before { animation-delay: 1.4s; }
+.step:nth-child(4) .step-badge { animation-delay: 1.5s; }
+.step:nth-child(4) .step-badge::before { animation-delay: 2.1s; }
 .step:hover .step-badge {
   color: #2a1500; background: var(--grad-accent);
-  box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 14%, transparent), 0 10px 30px -6px var(--glow);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 16%, transparent), 0 12px 34px -6px var(--glow);
 }
+@keyframes badgeFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes ringPing {
+  0%   { transform: scale(.85); opacity: .85; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
 .step-label {
-  font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase;
-  letter-spacing: .08em; color: var(--accent); display: block; margin-bottom: .45rem;
+  font-family: var(--font-mono); font-size: .74rem; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--accent); display: block; margin-bottom: .5rem;
 }
 .step h3 {
-  font-family: var(--font-display); font-weight: 700; font-size: 1.3rem;
-  letter-spacing: -.01em; color: #fff; margin-bottom: .6rem; line-height: 1.12;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.3rem, 1.9vw, 1.7rem);
+  letter-spacing: -.01em; color: #fff; margin-bottom: .65rem; line-height: 1.12;
 }
-.step p { color: var(--text-muted); font-size: .98rem; }
+.step p { color: var(--text-muted); font-size: clamp(.98rem, 1.05vw, 1.12rem); }
 /* Step 4: two hosting choices */
-.step-options { display: flex; flex-direction: column; gap: .55rem; margin-top: 1rem; }
+.step-options { display: flex; flex-direction: column; gap: .6rem; margin-top: 1.1rem; }
 .step-option {
   display: flex; align-items: baseline; gap: .55rem;
-  font-size: .92rem; color: var(--text);
-  padding: .6rem .75rem; border-radius: var(--radius-sm);
+  font-size: .95rem; color: var(--text);
+  padding: .65rem .8rem; border-radius: var(--radius-sm);
   border: 1px solid var(--border-strong); background: rgba(255,255,255,.02);
+  transition: border-color .25s ease, background .25s ease, transform .25s ease;
 }
+.step-option:hover { border-color: color-mix(in srgb, var(--accent) 50%, transparent); background: var(--accent-soft); transform: translateX(4px); }
 .step-option b { font-family: var(--font-mono); color: var(--accent-2); font-weight: 500; }
-.step-option span { color: var(--text-muted); font-size: .85rem; }
+.step-option span { color: var(--text-muted); font-size: .87rem; }
+
+/* ---- Full-screen presentation mode ---- */
+.process:fullscreen {
+  max-width: none; margin: 0; overflow-y: auto;
+  padding: clamp(2rem, 6vh, 5rem) clamp(2rem, 7vw, 7rem);
+  background:
+    radial-gradient(60vw 55vh at 80% -6%, rgba(255,138,30,.20), transparent 60%),
+    radial-gradient(50vw 45vh at 6% 10%, rgba(255,198,64,.12), transparent 55%),
+    radial-gradient(45vw 45vh at 50% 112%, rgba(255,106,0,.14), transparent 60%),
+    var(--bg);
+}
+.process:fullscreen .section-title { font-size: clamp(2.8rem, 6.5vw, 5.2rem); }
+.process:fullscreen .section-lead { font-size: clamp(1.2rem, 1.6vw, 1.5rem); }
+.process:fullscreen .process-grid { gap: clamp(1.5rem, 2.6vw, 2.4rem); margin-top: clamp(3rem, 6vw, 5rem); }
+.process:fullscreen .step-badge { width: 88px; height: 88px; font-size: 2rem; }
+.process:fullscreen .process-grid::before { top: 80px; }
+.process:fullscreen .process-grid::after { top: 75px; }
+.process:fullscreen .step h3 { font-size: clamp(1.5rem, 2.1vw, 2.1rem); }
+.process:fullscreen .step p { font-size: clamp(1.05rem, 1.2vw, 1.25rem); }
 
 @media (max-width: 920px) {
+  .process { min-height: 0; }
   .process-grid { grid-template-columns: repeat(2, 1fr); }
-  .process-grid::before { display: none; }
+  .process-grid::before, .process-grid::after { display: none; }
 }
 @media (max-width: 560px) {
   .process-grid { grid-template-columns: 1fr; }
