@@ -1,9 +1,12 @@
 /* =================================================================
-   MSI STUDIO — interactions
+   MSI STUDIO — "The Drafting Table" interactions
    Vanilla DOM, IIFE, every lookup guarded.
    ================================================================= */
 (function () {
   'use strict';
+
+  var reduceMotion = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---- Sticky nav: toggle .scrolled past a threshold ---- */
   var nav = document.getElementById('nav');
@@ -35,9 +38,223 @@
     });
   }
 
+  /* ---- Self-drawing SVG paths (the brand motif) ----
+     Each svg.draw-svg holds path.draw strokes. We measure every path,
+     hide it behind its own dash length, then release the offset when
+     the svg enters the viewport (or shortly after load, for
+     data-draw="load" svgs like the hero underline). Per-path pacing
+     comes from data-dur / data-delay attributes. */
+  var drawSvgs = document.querySelectorAll('svg.draw-svg');
+  if (drawSvgs.length && !reduceMotion) {
+    var prepPaths = function (svg) {
+      svg.querySelectorAll('path.draw').forEach(function (p) {
+        var len = p.getTotalLength();
+        p.style.strokeDasharray = len + ' ' + len;
+        p.style.strokeDashoffset = len;
+      });
+    };
+    var drawPaths = function (svg) {
+      svg.querySelectorAll('path.draw').forEach(function (p) {
+        var len = p.getTotalLength();
+        var dur = parseFloat(p.getAttribute('data-dur')) ||
+          Math.min(1.6, Math.max(0.5, len / 320));
+        var delay = parseFloat(p.getAttribute('data-delay')) || 0;
+        p.style.transition = 'stroke-dashoffset ' + dur + 's cubic-bezier(.4,0,.2,1) ' + delay + 's';
+        p.style.strokeDashoffset = '0';
+      });
+    };
+
+    var loadSvgs = [];
+    var scrollSvgs = [];
+    drawSvgs.forEach(function (svg) {
+      prepPaths(svg);
+      (svg.getAttribute('data-draw') === 'load' ? loadSvgs : scrollSvgs).push(svg);
+    });
+
+    // Hero strokes draw once the type has risen into place
+    window.setTimeout(function () { loadSvgs.forEach(drawPaths); }, 300);
+
+    if ('IntersectionObserver' in window && scrollSvgs.length) {
+      var pio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            drawPaths(entry.target);
+            pio.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.35 });
+      scrollSvgs.forEach(function (svg) { pio.observe(svg); });
+    } else {
+      scrollSvgs.forEach(drawPaths);
+    }
+  }
+
+  /* ---- The unbroken thread: a page-long stroke scrubbed by scroll ----
+     The path is built from real element positions (hero word, plate frames,
+     process grid, services, signature, contact form) so it weaves through
+     the page's margins at any layout width. The pen tip rides ~78% down
+     the viewport, drawing just ahead of the reader. */
+  var threadSvg = document.getElementById('threadSvg');
+  var threadPath = document.getElementById('threadPath');
+  var threadNib = document.getElementById('threadNib');
+  var mainEl = document.querySelector('main');
+  if (threadSvg && threadPath && threadNib && mainEl) {
+    var threadLen = 0;
+    var nibTimer = null;
+
+    // Element box relative to <main>
+    var rel = function (el) {
+      var r = el.getBoundingClientRect();
+      var m = mainEl.getBoundingClientRect();
+      return {
+        left: r.left - m.left, right: r.right - m.left,
+        top: r.top - m.top, bottom: r.bottom - m.top,
+        cx: r.left - m.left + r.width / 2,
+        cy: r.top - m.top + r.height / 2
+      };
+    };
+
+    var buildPoints = function () {
+      var W = mainEl.clientWidth;
+      var pts = [];
+      var inkWord = document.querySelector('.ink-word');
+      var spec = document.querySelector('.spec');
+      var marquee = document.querySelector('.marquee');
+      var workHead = document.querySelector('.work .section-head');
+      var plates = document.querySelectorAll('.plate-frame');
+      var processGrid = document.querySelector('.process-grid');
+      var services = document.querySelectorAll('.service');
+      var signature = document.querySelector('.signature');
+      var form = document.querySelector('.contact-form');
+
+      // Pick up where the hero underline leaves off, then keep to the
+      // clear right margin so the stroke never crosses the hero copy
+      if (inkWord) { var iw = rel(inkWord); pts.push([iw.right + 12, iw.bottom + 10]); }
+      if (spec) {
+        var sp = rel(spec);
+        pts.push([W * .94, sp.top - 50]);
+        pts.push([W * .94, sp.cy]);
+      }
+      if (marquee) { var mq = rel(marquee); pts.push([W * .4, mq.cy]); }
+      if (workHead) { var wh = rel(workHead); pts.push([W * .62, wh.bottom - 10]); }
+      // Weave down the outer margin beside each plate, crossing between them
+      var prev = null;
+      plates.forEach(function (pf, i) {
+        var r = rel(pf);
+        var side = (i % 2 === 0) ? W * .025 : W * .975;
+        if (prev) { pts.push([W * .5, (prev.bottom + r.top) / 2]); }
+        pts.push([side, r.top + r.height * .3]);
+        pts.push([side, r.bottom - r.height * .3]);
+        prev = r;
+      });
+      // Slip down the left margin past the process section (its own
+      // connector stroke is the spotlight there), then cross to services
+      // through the empty band below the grid
+      if (processGrid) {
+        var pg = rel(processGrid);
+        pts.push([W * .04, pg.top - 40]);
+        pts.push([W * .04, pg.bottom + 50]);
+      }
+      if (services.length) {
+        var s1 = rel(services[0]);
+        var s2 = rel(services[services.length - 1]);
+        pts.push([W * .96, s1.top - 10]);
+        pts.push([W * .96, s2.bottom - 20]);
+      }
+      if (signature) { var sg = rel(signature); pts.push([sg.left + 24, sg.cy]); }
+      // End on the contact form's crop-mark corner
+      if (form) {
+        var f = rel(form);
+        pts.push([f.left - 60, f.top - 60]);
+        pts.push([f.left - 6, f.top - 6]);
+      }
+      return pts;
+    };
+
+    // Catmull-Rom through the anchors → smooth cubic béziers
+    var toPathD = function (pts) {
+      if (pts.length < 2) { return ''; }
+      var d = 'M ' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1);
+      for (var i = 0; i < pts.length - 1; i++) {
+        var p0 = pts[i - 1] || pts[i];
+        var p1 = pts[i];
+        var p2 = pts[i + 1];
+        var p3 = pts[i + 2] || p2;
+        d += ' C ' + (p1[0] + (p2[0] - p0[0]) / 6).toFixed(1) + ' ' + (p1[1] + (p2[1] - p0[1]) / 6).toFixed(1)
+          + ', ' + (p2[0] - (p3[0] - p1[0]) / 6).toFixed(1) + ' ' + (p2[1] - (p3[1] - p1[1]) / 6).toFixed(1)
+          + ', ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1);
+      }
+      return d;
+    };
+
+    // The path is essentially monotonic in y, so binary-search the length
+    // whose point sits at the viewport's "pen tip" line
+    var lenAtY = function (targetY) {
+      var lo = 0;
+      var hi = threadLen;
+      for (var i = 0; i < 18; i++) {
+        var mid = (lo + hi) / 2;
+        if (threadPath.getPointAtLength(mid).y < targetY) { lo = mid; } else { hi = mid; }
+      }
+      return (lo + hi) / 2;
+    };
+
+    var updateThread = function () {
+      if (!threadLen) { return; }
+      var tipY = window.innerHeight * 0.78 - mainEl.getBoundingClientRect().top;
+      var drawn = tipY <= 0 ? 0
+        : (tipY >= mainEl.offsetHeight ? threadLen : lenAtY(tipY));
+      threadPath.style.strokeDashoffset = String(threadLen - drawn);
+      var pt = threadPath.getPointAtLength(drawn);
+      threadNib.setAttribute('cx', pt.x);
+      threadNib.setAttribute('cy', pt.y);
+    };
+
+    var buildThread = function () {
+      var d = toPathD(buildPoints());
+      if (!d) { return; }
+      threadSvg.setAttribute('viewBox', '0 0 ' + mainEl.clientWidth + ' ' + mainEl.offsetHeight);
+      threadPath.setAttribute('d', d);
+      threadLen = threadPath.getTotalLength();
+      if (reduceMotion) {
+        threadPath.style.strokeDasharray = 'none';
+        threadNib.style.display = 'none';
+      } else {
+        threadPath.style.strokeDasharray = threadLen + ' ' + threadLen;
+        updateThread();
+      }
+    };
+
+    if (!reduceMotion) {
+      var threadTicking = false;
+      window.addEventListener('scroll', function () {
+        if (!threadTicking) {
+          threadTicking = true;
+          window.requestAnimationFrame(function () {
+            updateThread();
+            threadTicking = false;
+          });
+        }
+        threadNib.classList.add('scribing');
+        if (nibTimer) { window.clearTimeout(nibTimer); }
+        nibTimer = window.setTimeout(function () {
+          threadNib.classList.remove('scribing');
+        }, 700);
+      }, { passive: true });
+    }
+    var rebuildTimer = null;
+    window.addEventListener('resize', function () {
+      if (rebuildTimer) { window.clearTimeout(rebuildTimer); }
+      rebuildTimer = window.setTimeout(buildThread, 200);
+    });
+    // Rebuild once everything (images, fonts) has settled the layout
+    window.addEventListener('load', buildThread);
+    buildThread();
+  }
+
   /* ---- Scroll-reveal via IntersectionObserver ---- */
   var revealTargets = document.querySelectorAll(
-    '.section-head, .work-card, .step, .service, .about-text, .about-cred, .contact-intro, .contact-form, .hero-stats'
+    '.section-head, .work-card, .step, .service, .about-text, .colophon, .contact-intro, .contact-form'
   );
   if ('IntersectionObserver' in window && revealTargets.length) {
     revealTargets.forEach(function (el) { el.classList.add('fade-in'); });
@@ -50,6 +267,21 @@
       });
     }, { threshold: 0.12 });
     revealTargets.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---- Scroll-spy: highlight the active section's nav link ---- */
+  var sections = document.querySelectorAll('main section[id]');
+  var navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+  if ('IntersectionObserver' in window && sections.length && navAnchors.length) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) { return; }
+        navAnchors.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+        });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(function (s) { spy.observe(s); });
   }
 
   /* ---- Present the Process section full screen ---- */

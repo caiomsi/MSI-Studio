@@ -4,33 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>MSI Studio — Websites Engineered to Perform | Custom Sites for Small Business</title>
-  <meta name="description" content="MSI Studio designs and hand-codes fast, bold websites for small businesses. No bloat, no page builders — just custom static sites that load instantly and rank. See selected work." />
+  <title>MSI Studio — Websites Drawn with Intent | Custom Sites for Small Business</title>
+  <meta name="description" content="MSI Studio designs and hand-codes fast, modern websites for small businesses. Every line written by hand, every pixel placed with intent — no page builders, no bloat. See selected work." />
   <meta name="author" content="MSI Studio" />
-  <meta name="theme-color" content="#0a0908" />
+  <meta name="theme-color" content="#faf6ef" />
   <link rel="canonical" href="https://work.caiomsi.com/" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="MSI Studio" />
-  <meta property="og:title" content="MSI Studio — Websites Engineered to Perform" />
-  <meta property="og:description" content="Fast, bold, hand-coded websites for small businesses. See the work." />
+  <meta property="og:title" content="MSI Studio — Websites Drawn with Intent" />
+  <meta property="og:description" content="Fast, hand-coded websites for small businesses. Every pixel placed with intent. See the work." />
   <meta property="og:url" content="https://work.caiomsi.com/" />
   <meta property="og:image" content="https://work.caiomsi.com/images/work-maple-and-bean.jpg" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="MSI Studio — Websites Engineered to Perform" />
-  <meta name="twitter:description" content="Fast, bold, hand-coded websites for small businesses. See the work." />
+  <meta name="twitter:title" content="MSI Studio — Websites Drawn with Intent" />
+  <meta name="twitter:description" content="Fast, hand-coded websites for small businesses. Every pixel placed with intent. See the work." />
   <meta name="twitter:image" content="https://work.caiomsi.com/images/work-maple-and-bean.jpg" />
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 
-  <!-- Fonts: Schibsted Grotesk (display) + Manrope (body) + DM Mono (labels) -->
+  <!-- Fonts: Fraunces (display serif) + Karla (body) + DM Mono (annotations) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Manrope:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Manrope:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Karla:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Karla:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" />
 
   <link rel="stylesheet" href="css/style.css" />
 
@@ -64,7 +64,7 @@
   <header class="nav" id="nav">
     <div class="nav-inner">
       <a href="#top" class="wordmark" aria-label="MSI Studio home">
-        MSI<span class="wordmark-dot">·</span>STUDIO
+        MSI<span class="wordmark-dash">—</span><em>Studio</em>
       </a>
       <nav class="nav-links" id="navLinks" aria-label="Primary">
         <a href="#work">Work</a>
@@ -81,43 +81,62 @@
 
   <!-- ====================== HERO ====================== -->
   <main id="top">
+    <!-- The unbroken thread: one page-long ink stroke, drawn by scroll (js/main.js builds the path) -->
+    <div class="thread" aria-hidden="true">
+      <svg id="threadSvg" preserveAspectRatio="none">
+        <path id="threadPath" d="" />
+        <circle id="threadNib" r="3.5" />
+      </svg>
+    </div>
+
     <section class="hero">
-      <div class="hero-grid">
-        <p class="kicker">Web design &amp; development studio</p>
-        <h1 class="hero-title">
-          <span class="line">Custom websites,</span>
-          <span class="line"><span class="accent">engineered</span> to perform.</span>
-        </h1>
-        <p class="hero-sub">
-          MSI Studio designs and hand-codes fast, modern websites for small businesses —
-          no page builders, no bloat. Sites that load instantly, rank on Google, and make
-          a three-person shop look like a household name.
-        </p>
-        <div class="hero-actions">
-          <a href="#work" class="btn btn-primary">See the work →</a>
-          <a href="#contact" class="btn btn-ghost">Start a project</a>
+      <p class="kicker rise r1">Web design &amp; development studio</p>
+      <h1 class="hero-title">
+        <span class="line rise r2">Websites drawn</span>
+        <span class="line rise r3">with
+          <span class="ink-word">intent.<svg class="draw-svg underline-svg" data-draw="load" viewBox="0 0 220 28" preserveAspectRatio="none" aria-hidden="true">
+            <path class="draw" data-delay="0.9" data-dur="0.6" d="M6 17 C 58 6, 148 4, 214 11" />
+            <path class="draw thin" data-delay="1.3" data-dur="0.45" d="M13 23 C 78 14, 158 12, 206 17" />
+          </svg></span>
+        </span>
+      </h1>
+      <p class="hero-sub rise r4">
+        MSI Studio designs and hand-codes fast, modern websites for small businesses —
+        no page builders, no bloat. Every line written by hand, every pixel placed on
+        purpose, so a three-person shop reads like a household name.
+      </p>
+      <div class="hero-actions rise r5">
+        <a href="#work" class="btn btn-primary">See the work</a>
+        <a href="#contact" class="btn btn-ghost">Start a project</a>
+        <div class="cta-anno" aria-hidden="true">
+          <span>start here</span>
+          <svg class="draw-svg" data-draw="load" viewBox="0 0 84 64">
+            <path class="draw" data-delay="1.5" data-dur="0.55" d="M76 8 C 56 12, 32 24, 18 48" />
+            <path class="draw" data-delay="2" data-dur="0.3" d="M10 34 L17 50 L33 45" />
+          </svg>
         </div>
       </div>
-      <div class="hero-stats">
-        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Hand-coded</span></div>
-        <div class="stat"><span class="stat-num">0kb</span><span class="stat-label">Framework bloat</span></div>
-        <div class="stat"><span class="stat-num">&lt;1s</span><span class="stat-label">Load time</span></div>
-      </div>
+
+      <dl class="spec rise r6">
+        <div class="spec-item"><dd>100%</dd><dt>Hand-coded</dt></div>
+        <div class="spec-item"><dd>0kb</dd><dt>Framework bloat</dt></div>
+        <div class="spec-item"><dd>&lt;1s</dd><dt>Load time</dt></div>
+      </dl>
     </section>
 
     <!-- ====================== MARQUEE ====================== -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee-track">
-        <span>CUSTOM STATIC SITES</span><span class="sep">✦</span>
-        <span>LOCAL SEO</span><span class="sep">✦</span>
-        <span>REDESIGNS</span><span class="sep">✦</span>
-        <span>DEPLOY &amp; HOSTING</span><span class="sep">✦</span>
-        <span>SMALL BUSINESS</span><span class="sep">✦</span>
-        <span>CUSTOM STATIC SITES</span><span class="sep">✦</span>
-        <span>LOCAL SEO</span><span class="sep">✦</span>
-        <span>REDESIGNS</span><span class="sep">✦</span>
-        <span>DEPLOY &amp; HOSTING</span><span class="sep">✦</span>
-        <span>SMALL BUSINESS</span><span class="sep">✦</span>
+        <span>Custom static sites</span><span class="sep">✳</span>
+        <span>Local SEO</span><span class="sep">✳</span>
+        <span>Redesigns</span><span class="sep">✳</span>
+        <span>Deploy &amp; hosting</span><span class="sep">✳</span>
+        <span>Small business</span><span class="sep">✳</span>
+        <span>Custom static sites</span><span class="sep">✳</span>
+        <span>Local SEO</span><span class="sep">✳</span>
+        <span>Redesigns</span><span class="sep">✳</span>
+        <span>Deploy &amp; hosting</span><span class="sep">✳</span>
+        <span>Small business</span><span class="sep">✳</span>
       </div>
     </div>
 
@@ -125,62 +144,107 @@
     <section class="section work" id="work">
       <div class="section-head">
         <p class="kicker">01 / Selected work</p>
-        <h2 class="section-title">Sites I've shipped</h2>
+        <h2 class="section-title">Sites I've <em>shipped</em></h2>
         <p class="section-lead">Every one of these is custom-built, live, and clickable. Go poke around.</p>
       </div>
 
       <div class="work-list">
 
         <!-- Maple & Bean -->
-        <article class="work-card" style="--card-accent:#ffb347;">
+        <article class="work-card">
           <a class="work-link" href="https://maplenbean.caiomsi.com" target="_blank" rel="noopener">
-            <div class="work-media">
-              <img src="images/work-maple-and-bean.jpg" alt="Maple &amp; Bean coffee shop storefront website" loading="lazy" width="800" height="600" />
-              <span class="work-index">01</span>
-            </div>
+            <figure class="plate-frame">
+              <div class="plate-media">
+                <img src="images/work-maple-and-bean.jpg" alt="Maple &amp; Bean coffee shop storefront website" loading="lazy" width="800" height="600" />
+              </div>
+              <figcaption class="plate-caption">
+                <span>Plate 01 — Maple &amp; Bean</span>
+                <span>maplenbean.caiomsi.com</span>
+              </figcaption>
+              <div class="plate-anno" aria-hidden="true">
+                <svg class="draw-svg anno-loop" viewBox="0 0 150 50" preserveAspectRatio="none">
+                  <path class="draw" data-dur="0.8" d="M75 5 C 117 3, 144 12, 143 24 C 142 39, 110 46, 70 45 C 30 44, 7 36, 8 23 C 9 10, 44 4, 96 6" />
+                </svg>
+                <span>appetite-first</span>
+                <svg class="draw-svg anno-arrow" viewBox="0 0 60 60">
+                  <path class="draw" data-delay="0.7" data-dur="0.45" d="M50 6 C 34 14, 20 30, 13 48" />
+                  <path class="draw" data-delay="1.1" data-dur="0.25" d="M5 36 L12 51 L27 46" />
+                </svg>
+              </div>
+            </figure>
             <div class="work-body">
               <h3 class="work-name">Maple &amp; Bean <span class="arrow">↗</span></h3>
               <p class="work-desc">A warm, appetite-first site for a neighborhood coffee roastery — story, menu, and visit info that pulls people through the door.</p>
               <ul class="work-tags">
                 <li>Local business</li><li>Static HTML/CSS/JS</li><li>SEO</li>
               </ul>
-              <span class="work-url">maplenbean.caiomsi.com</span>
+              <span class="plate-visit">Visit the live site</span>
             </div>
           </a>
         </article>
 
         <!-- AJ's Diamond Detailing -->
-        <article class="work-card" style="--card-accent:#ff7a18;">
+        <article class="work-card">
           <a class="work-link" href="https://caiomsi.github.io/AJs-DD/" target="_blank" rel="noopener">
-            <div class="work-media">
-              <img src="images/work-ajs-detailing.jpg" alt="AJ's Diamond Detailing premium auto detailing website" loading="lazy" width="800" height="600" />
-              <span class="work-index">02</span>
-            </div>
+            <figure class="plate-frame">
+              <div class="plate-media">
+                <img src="images/work-ajs-detailing.jpg" alt="AJ's Diamond Detailing premium auto detailing website" loading="lazy" width="800" height="600" />
+              </div>
+              <figcaption class="plate-caption">
+                <span>Plate 02 — AJ's Diamond Detailing</span>
+                <span>caiomsi.github.io/AJs-DD</span>
+              </figcaption>
+              <div class="plate-anno" aria-hidden="true">
+                <svg class="draw-svg anno-loop" viewBox="0 0 150 50" preserveAspectRatio="none">
+                  <path class="draw" data-dur="0.8" d="M75 5 C 117 3, 144 12, 143 24 C 142 39, 110 46, 70 45 C 30 44, 7 36, 8 23 C 9 10, 44 4, 96 6" />
+                </svg>
+                <span>real client</span>
+                <svg class="draw-svg anno-arrow" viewBox="0 0 60 60">
+                  <path class="draw" data-delay="0.7" data-dur="0.45" d="M50 6 C 34 14, 20 30, 13 48" />
+                  <path class="draw" data-delay="1.1" data-dur="0.25" d="M5 36 L12 51 L27 46" />
+                </svg>
+              </div>
+            </figure>
             <div class="work-body">
               <h3 class="work-name">AJ's Diamond Detailing <span class="arrow">↗</span></h3>
               <p class="work-desc">Showroom-noir site for a Gainesville auto-detailing pro — luxury feel, before/after slider, and schema markup built to win local search.</p>
               <ul class="work-tags">
                 <li>Real client</li><li>Before/after slider</li><li>LocalBusiness schema</li>
               </ul>
-              <span class="work-url">caiomsi.github.io/AJs-DD</span>
+              <span class="plate-visit">Visit the live site</span>
             </div>
           </a>
         </article>
 
         <!-- Caio·MSI personal portfolio -->
-        <article class="work-card" style="--card-accent:#ffce54;">
+        <article class="work-card">
           <a class="work-link" href="https://caiomsi.com" target="_blank" rel="noopener">
-            <div class="work-media">
-              <img src="images/work-caiomsi-portfolio.jpg" alt="Caio·MSI personal portfolio website" loading="lazy" width="800" height="600" />
-              <span class="work-index">03</span>
-            </div>
+            <figure class="plate-frame">
+              <div class="plate-media">
+                <img src="images/work-caiomsi-portfolio.jpg" alt="Caio·MSI personal portfolio website" loading="lazy" width="800" height="600" />
+              </div>
+              <figcaption class="plate-caption">
+                <span>Plate 03 — Caio·MSI Portfolio</span>
+                <span>caiomsi.com</span>
+              </figcaption>
+              <div class="plate-anno" aria-hidden="true">
+                <svg class="draw-svg anno-loop" viewBox="0 0 150 50" preserveAspectRatio="none">
+                  <path class="draw" data-dur="0.8" d="M75 5 C 117 3, 144 12, 143 24 C 142 39, 110 46, 70 45 C 30 44, 7 36, 8 23 C 9 10, 44 4, 96 6" />
+                </svg>
+                <span>shows the range</span>
+                <svg class="draw-svg anno-arrow" viewBox="0 0 60 60">
+                  <path class="draw" data-delay="0.7" data-dur="0.45" d="M50 6 C 34 14, 20 30, 13 48" />
+                  <path class="draw" data-delay="1.1" data-dur="0.25" d="M5 36 L12 51 L27 46" />
+                </svg>
+              </div>
+            </figure>
             <div class="work-body">
               <h3 class="work-name">Caio·MSI Portfolio <span class="arrow">↗</span></h3>
               <p class="work-desc">A classical, gold-on-obsidian personal portfolio with parallax, a tilt-card gallery, and particle effects — showing the range beyond business sites.</p>
               <ul class="work-tags">
                 <li>Portfolio</li><li>Parallax &amp; canvas</li><li>Animation</li>
               </ul>
-              <span class="work-url">caiomsi.com</span>
+              <span class="plate-visit">Visit the live site</span>
             </div>
           </a>
         </article>
@@ -192,7 +256,7 @@
     <section class="section process" id="process">
       <div class="section-head process-head">
         <p class="kicker">02 / How it works</p>
-        <h2 class="section-title">From idea to live, in four steps</h2>
+        <h2 class="section-title">From idea to live, in <em>four strokes</em></h2>
         <p class="section-lead">No mystery, no runaround. Here's exactly what working together looks like — start to launch.</p>
         <button type="button" class="present-btn" id="presentBtn" aria-label="Present this section full screen">
           <span class="present-ico" aria-hidden="true">⛶</span> Present full screen
@@ -200,29 +264,53 @@
       </div>
 
       <div class="process-grid">
+        <svg class="process-stroke draw-svg" viewBox="0 0 1200 110" preserveAspectRatio="none" aria-hidden="true">
+          <path class="draw" data-dur="2.2" d="M -10 78 C 10 60, 22 50, 38 56 C 90 74, 140 26, 200 44 C 260 62, 300 70, 336 56 C 390 34, 450 78, 510 62 C 570 46, 600 38, 636 54 C 690 78, 750 30, 810 46 C 870 62, 900 66, 936 54 C 990 36, 1080 64, 1210 42" />
+        </svg>
+
         <div class="step">
-          <div class="step-badge">1</div>
+          <span class="step-num">
+            <svg class="draw-svg" viewBox="0 0 64 64" aria-hidden="true">
+              <path class="draw" data-delay="0.15" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
+            </svg>
+            <span>1</span>
+          </span>
           <span class="step-label">Step one</span>
           <h3>We build your website</h3>
           <p>I design and hand-code a custom site for your business from scratch — fast, modern, and made to fit exactly what you do.</p>
         </div>
 
         <div class="step">
-          <div class="step-badge">2</div>
+          <span class="step-num">
+            <svg class="draw-svg" viewBox="0 0 64 64" aria-hidden="true">
+              <path class="draw" data-delay="0.55" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
+            </svg>
+            <span>2</span>
+          </span>
           <span class="step-label">Step two</span>
           <h3>We showcase it live</h3>
           <p>We hop on a Google Meet and I walk you through the whole site together — every section, on screen, in real time.</p>
         </div>
 
         <div class="step">
-          <div class="step-badge">3</div>
+          <span class="step-num">
+            <svg class="draw-svg" viewBox="0 0 64 64" aria-hidden="true">
+              <path class="draw" data-delay="0.95" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
+            </svg>
+            <span>3</span>
+          </span>
           <span class="step-label">Step three</span>
           <h3>Two rounds of revisions</h3>
           <p>You tell me what to change and I refine it — twice over — until the site looks and feels exactly the way you want.</p>
         </div>
 
         <div class="step">
-          <div class="step-badge">4</div>
+          <span class="step-num">
+            <svg class="draw-svg" viewBox="0 0 64 64" aria-hidden="true">
+              <path class="draw" data-delay="1.35" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
+            </svg>
+            <span>4</span>
+          </span>
           <span class="step-label">Step four</span>
           <h3>Launch your way</h3>
           <p>When it's ready, the choice is yours:</p>
@@ -238,31 +326,31 @@
     <section class="section services" id="services">
       <div class="section-head">
         <p class="kicker">03 / What I do</p>
-        <h2 class="section-title">The work, plainly</h2>
+        <h2 class="section-title">The work, <em>plainly</em></h2>
       </div>
 
-      <div class="services-grid">
-        <div class="service">
+      <ol class="services-list">
+        <li class="service">
           <span class="service-num">01</span>
           <h3>Custom websites</h3>
           <p>Designed and hand-coded from scratch to fit your business — not stretched over a template anyone can buy.</p>
-        </div>
-        <div class="service">
+        </li>
+        <li class="service">
           <span class="service-num">02</span>
           <h3>Local SEO</h3>
           <p>Structured data, clean metadata, fast pages, and a sitemap — so the right neighborhood actually finds you.</p>
-        </div>
-        <div class="service">
+        </li>
+        <li class="service">
           <span class="service-num">03</span>
           <h3>Redesigns</h3>
           <p>An old, slow, or embarrassing site rebuilt into something that looks like you mean business.</p>
-        </div>
-        <div class="service">
+        </li>
+        <li class="service">
           <span class="service-num">04</span>
           <h3>Deploy &amp; hosting</h3>
           <p>Domain, hosting, and a no-surprises setup that ships and stays up. You get a site, not a homework assignment.</p>
-        </div>
-      </div>
+        </li>
+      </ol>
     </section>
 
     <!-- ====================== ABOUT ====================== -->
@@ -270,21 +358,26 @@
       <div class="about-grid">
         <div class="about-text">
           <p class="kicker">04 / About the studio</p>
-          <h2 class="section-title">Small studio. <br/>Sharp results.</h2>
+          <h2 class="section-title">Small studio. <br/><em>Sharp results.</em></h2>
           <p>MSI Studio is a one-person web shop that treats every small business like it
             deserves a site as good as the big guys'. I write every line by hand — no
             drag-and-drop builders, no plugin spaghetti — which means the sites I ship are
             fast, clean, and genuinely yours.</p>
           <p>The whole point is leverage: a great website earns trust before you ever pick
             up the phone. That's what I build.</p>
-          <a href="#contact" class="btn btn-primary">Let's build yours →</a>
+          <div class="signature" aria-hidden="true">
+            <svg class="draw-svg" viewBox="0 0 200 56">
+              <path class="draw" data-dur="1.1" d="M8 36 C 28 8, 44 50, 66 30 C 84 13, 92 46, 116 30 C 134 18, 148 38, 168 26 C 178 20, 186 22, 194 18" />
+            </svg>
+          </div>
+          <a href="#contact" class="btn btn-primary">Let's build yours</a>
         </div>
-        <div class="about-cred">
-          <div class="cred-item"><span>Hand-coded</span><strong>Every site</strong></div>
-          <div class="cred-item"><span>Live demos</span><strong>3+ shipped</strong></div>
-          <div class="cred-item"><span>Based in</span><strong>Florida, USA</strong></div>
-          <div class="cred-item"><span>Built with</span><strong>HTML · CSS · JS</strong></div>
-        </div>
+        <dl class="colophon">
+          <div class="colophon-row"><dt>Hand-coded</dt><dd>Every site</dd></div>
+          <div class="colophon-row"><dt>Live demos</dt><dd>3+ shipped</dd></div>
+          <div class="colophon-row"><dt>Based in</dt><dd>Florida, USA</dd></div>
+          <div class="colophon-row"><dt>Built with</dt><dd>HTML · CSS · JS</dd></div>
+        </dl>
       </div>
     </section>
 
@@ -293,10 +386,15 @@
       <div class="contact-grid">
         <div class="contact-intro">
           <p class="kicker">05 / Start a project</p>
-          <h2 class="section-title">Got a business?<br/>Let's get it online.</h2>
+          <h2 class="section-title">Got a business?<br/><em>Let's get it online.</em></h2>
           <p>Tell me what you're building and I'll get back to you fast. No jargon, no
             sales pitch — just a real conversation about your site.</p>
-          <a class="contact-email" href="mailto:caiomamede2008@gmail.com">caiomamede2008@gmail.com</a>
+          <span class="contact-email-wrap">
+            <a class="contact-email" href="mailto:caiomamede2008@gmail.com">caiomamede2008@gmail.com</a>
+            <svg class="draw-svg underline-svg" viewBox="0 0 220 14" preserveAspectRatio="none" aria-hidden="true">
+              <path class="draw" data-dur="0.7" d="M4 9 C 60 3, 150 2, 216 7" />
+            </svg>
+          </span>
         </div>
 
         <!-- NOTE: replace YOUR_FORM_ID with a real Formspree endpoint before launch -->
@@ -313,7 +411,7 @@
             <span>What do you need?</span>
             <textarea name="message" rows="4" required placeholder="A new site for my..."></textarea>
           </label>
-          <button type="submit" class="btn btn-primary btn-block">Send it →</button>
+          <button type="submit" class="btn btn-primary btn-block">Send it</button>
         </form>
       </div>
     </section>
@@ -322,7 +420,7 @@
   <!-- ====================== FOOTER ====================== -->
   <footer class="footer">
     <div class="footer-inner">
-      <a href="#top" class="wordmark">MSI<span class="wordmark-dot">·</span>STUDIO</a>
+      <a href="#top" class="wordmark">MSI<span class="wordmark-dash">—</span><em>Studio</em></a>
       <nav class="footer-nav" aria-label="Footer">
         <a href="#work">Work</a>
         <a href="#process">Process</a>
@@ -330,7 +428,7 @@
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </nav>
-      <p class="footer-copy">© <span id="year">2026</span> MSI Studio — Designed &amp; built in Florida.</p>
+      <p class="footer-copy">© <span id="year">2026</span> MSI Studio — Designed &amp; built by hand in Florida.</p>
     </div>
   </footer>
 
