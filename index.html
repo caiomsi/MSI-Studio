@@ -265,13 +265,19 @@
 
       <div class="process-grid">
         <svg class="process-stroke draw-svg" viewBox="0 0 1200 110" preserveAspectRatio="none" aria-hidden="true">
-          <path class="draw" data-dur="2.2" d="M -10 78 C 10 60, 22 50, 38 56 C 90 74, 140 26, 200 44 C 260 62, 300 70, 336 56 C 390 34, 450 78, 510 62 C 570 46, 600 38, 636 54 C 690 78, 750 30, 810 46 C 870 62, 900 66, 936 54 C 990 36, 1080 64, 1210 42" />
+          <path id="processPath" class="draw" data-dur="2.4" data-ease="linear" d="M -10 78 C 10 60, 22 50, 38 56 C 90 74, 140 26, 200 44 C 260 62, 300 70, 336 56 C 390 34, 450 78, 510 62 C 570 46, 600 38, 636 54 C 690 78, 750 30, 810 46 C 870 62, 900 66, 936 54 C 990 36, 1080 64, 1210 42" />
+          <circle class="stroke-dot" r="4" opacity="0">
+            <animateMotion id="strokeDotMotion" dur="5.2s" begin="indefinite" repeatCount="indefinite">
+              <mpath href="#processPath" xlink:href="#processPath" />
+            </animateMotion>
+            <animate id="strokeDotFade" attributeName="opacity" values="0;.9;.9;0" keyTimes="0;.07;.93;1" dur="5.2s" begin="indefinite" repeatCount="indefinite" />
+          </circle>
         </svg>
 
         <div class="step">
           <span class="step-num">
             <svg class="draw-svg" viewBox="0 0 64 64" aria-hidden="true">
-              <path class="draw" data-delay="0.15" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
+              <path class="draw" data-delay="0.3" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
             </svg>
             <span>1</span>
           </span>
@@ -283,7 +289,7 @@
         <div class="step">
           <span class="step-num">
             <svg class="draw-svg" viewBox="0 0 64 64" aria-hidden="true">
-              <path class="draw" data-delay="0.55" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
+              <path class="draw" data-delay="0.9" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
             </svg>
             <span>2</span>
           </span>
@@ -295,7 +301,7 @@
         <div class="step">
           <span class="step-num">
             <svg class="draw-svg" viewBox="0 0 64 64" aria-hidden="true">
-              <path class="draw" data-delay="0.95" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
+              <path class="draw" data-delay="1.5" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
             </svg>
             <span>3</span>
           </span>
@@ -307,7 +313,7 @@
         <div class="step">
           <span class="step-num">
             <svg class="draw-svg" viewBox="0 0 64 64" aria-hidden="true">
-              <path class="draw" data-delay="1.35" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
+              <path class="draw" data-delay="2.1" data-dur="0.6" d="M32 6 C 50 6, 58 16, 58 32 C 58 48, 46 58, 32 58 C 16 58, 6 48, 6 32 C 6 14, 18 6, 38 7" />
             </svg>
             <span>4</span>
           </span>

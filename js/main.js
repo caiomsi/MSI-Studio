@@ -59,7 +59,8 @@
         var dur = parseFloat(p.getAttribute('data-dur')) ||
           Math.min(1.6, Math.max(0.5, len / 320));
         var delay = parseFloat(p.getAttribute('data-delay')) || 0;
-        p.style.transition = 'stroke-dashoffset ' + dur + 's cubic-bezier(.4,0,.2,1) ' + delay + 's';
+        var ease = p.getAttribute('data-ease') || 'cubic-bezier(.4,0,.2,1)';
+        p.style.transition = 'stroke-dashoffset ' + dur + 's ' + ease + ' ' + delay + 's';
         p.style.strokeDashoffset = '0';
       });
     };
@@ -74,11 +75,26 @@
     // Hero strokes draw once the type has risen into place
     window.setTimeout(function () { loadSvgs.forEach(drawPaths); }, 300);
 
+    // Once the process connector finishes drawing, send a small ink dot
+    // traveling along it (SMIL animations begin as "indefinite" so the
+    // dot can't run on a not-yet-drawn stroke)
+    var startProcessDot = function () {
+      ['strokeDotMotion', 'strokeDotFade'].forEach(function (id) {
+        var a = document.getElementById(id);
+        if (a && a.beginElement) {
+          try { a.beginElement(); } catch (e) { /* SMIL unsupported */ }
+        }
+      });
+    };
+
     if ('IntersectionObserver' in window && scrollSvgs.length) {
       var pio = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             drawPaths(entry.target);
+            if (entry.target.classList.contains('process-stroke')) {
+              window.setTimeout(startProcessDot, 2700);
+            }
             pio.unobserve(entry.target);
           }
         });
@@ -160,28 +176,12 @@
         pts.push([side, r.bottom - r.height * .3]);
         prev = r;
       });
-      // Ride the process section's own connector stroke: sample points
-      // along its path (viewBox 1200x110, stretched) so the thread is
-      // literally wired through the four step circles
-      var processStroke = document.querySelector('.process-stroke path.draw');
-      var strokeBox = document.querySelector('.process-stroke');
-      var rodeStroke = false;
-      if (processStroke && strokeBox) {
-        var pr = rel(strokeBox);
-        if (pr.width > 0 && pr.height > 0) {
-          var plen = processStroke.getTotalLength();
-          for (var t = 0; t <= 7; t++) {
-            var pp = processStroke.getPointAtLength(plen * t / 7);
-            pts.push([pr.left + pp.x * pr.width / 1200, pr.top + pp.y * pr.height / 110]);
-          }
-          rodeStroke = true;
-        }
-      }
-      if (!rodeStroke && processGrid) {
-        var pg = rel(processGrid);
-        pts.push([W * .04, pg.top - 40]);
-        pts.push([W * .04, pg.bottom + 50]);
-      }
+      // Glide down the left margin past the process section — its own
+      // connector stroke owns that stage — then cross to services
+      // through the empty band below the grid
+      var processHead = document.querySelector('.process-head');
+      if (processHead) { var ph = rel(processHead); pts.push([W * .04, ph.cy]); }
+      if (processGrid) { var pg = rel(processGrid); pts.push([W * .04, pg.bottom + 40]); }
       if (services.length) {
         var s1 = rel(services[0]);
         var s2 = rel(services[services.length - 1]);
@@ -189,17 +189,14 @@
         pts.push([W * .96, s2.bottom - 20]);
       }
       if (signature) { var sg = rel(signature); pts.push([sg.left + 24, sg.cy]); }
-      // Skim under the drawn email underline...
-      var emailWrap = document.querySelector('.contact-email-wrap');
-      if (emailWrap) { var e = rel(emailWrap); pts.push([e.left + 8, e.bottom + 12]); }
-      // ...then trace the form: in at the top-left crop mark, down the
-      // side, and the pen lifts off at the bottom-right crop mark
+      // One deliberate gesture to finish: cross the section gap into the
+      // column gutter, run down between intro and form, sweep under the
+      // form, and lift off at its bottom-right crop mark
       if (form) {
         var f = rel(form);
-        pts.push([f.left - 60, f.top - 60]);
-        pts.push([f.left - 6, f.top - 6]);
-        pts.push([f.left - 18, f.cy]);
-        pts.push([f.cx, f.bottom + 16]);
+        pts.push([f.left - 44, f.top - 44]);
+        pts.push([f.left - 44, f.cy]);
+        pts.push([f.cx, f.bottom + 26]);
         pts.push([f.right + 8, f.bottom + 8]);
       }
       return pts;

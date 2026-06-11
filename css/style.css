@@ -393,6 +393,7 @@ main { position: relative; }
   pointer-events: none;
 }
 .process-stroke .draw { stroke-width: 2; }
+.stroke-dot { fill: var(--ox); }
 
 .step { position: relative; z-index: 1; }
 .step-num {
@@ -588,5 +589,6 @@ main { position: relative; }
   * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
   .fade-in { opacity: 1; transform: none; }
   .rise { opacity: 1; animation: none; transform: none; }
+  .stroke-dot { display: none; }
   /* js/main.js also skips path-draw setup, so strokes render fully drawn */
 }
