@@ -141,7 +141,6 @@
       var plates = document.querySelectorAll('.plate-frame');
       var processGrid = document.querySelector('.process-grid');
       var services = document.querySelectorAll('.service');
-      var signature = document.querySelector('.signature');
       var form = document.querySelector('.contact-form');
 
       // Begin exactly where the hero underline's stroke ends, so the
@@ -188,7 +187,10 @@
         pts.push([W * .96, s1.top - 10]);
         pts.push([W * .96, s2.bottom - 20]);
       }
-      if (signature) { var sg = rel(signature); pts.push([sg.left + 24, sg.cy]); }
+      // Stay in the right margin beside the colophon — the signature
+      // flourish draws itself; the thread must not cross it
+      var about = document.querySelector('.about');
+      if (about) { var ab = rel(about); pts.push([W * .96, ab.bottom - 30]); }
       // One deliberate gesture to finish: cross the section gap into the
       // column gutter, run down between intro and form, sweep under the
       // form, and lift off at its bottom-right crop mark
