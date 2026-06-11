@@ -109,6 +109,7 @@
       return {
         left: r.left - m.left, right: r.right - m.left,
         top: r.top - m.top, bottom: r.bottom - m.top,
+        width: r.width, height: r.height,
         cx: r.left - m.left + r.width / 2,
         cy: r.top - m.top + r.height / 2
       };
@@ -127,12 +128,17 @@
       var signature = document.querySelector('.signature');
       var form = document.querySelector('.contact-form');
 
-      // Pick up where the hero underline leaves off, then keep to the
-      // clear right margin so the stroke never crosses the hero copy
-      if (inkWord) {
+      // Begin exactly where the hero underline's stroke ends, so the
+      // thread reads as the same pen leaving the word
+      var underline = document.querySelector('.hero-title .underline-svg');
+      if (underline) {
+        var u = rel(underline);
+        pts.push([u.left + (u.right - u.left) * .97, u.top + (u.bottom - u.top) * .4]);
+        pts.push([W * .9, u.top - 30]); // arc over the hero copy
+      } else if (inkWord) {
         var iw = rel(inkWord);
         pts.push([iw.right + 12, iw.bottom + 10]);
-        pts.push([W * .9, iw.bottom - 24]); // arc over the hero copy
+        pts.push([W * .9, iw.bottom - 24]);
       }
       if (spec) {
         var sp = rel(spec);
@@ -141,20 +147,37 @@
       }
       if (marquee) { var mq = rel(marquee); pts.push([W * .4, mq.cy]); }
       if (workHead) { var wh = rel(workHead); pts.push([W * .62, wh.bottom - 10]); }
-      // Weave down the outer margin beside each plate, crossing between them
+      // Weave down the outer margin beside each plate, crossing between
+      // them and skimming under each circled annotation on the way
       var prev = null;
       plates.forEach(function (pf, i) {
         var r = rel(pf);
         var side = (i % 2 === 0) ? W * .025 : W * .975;
         if (prev) { pts.push([W * .5, (prev.bottom + r.top) / 2]); }
+        var anno = pf.querySelector('.plate-anno');
+        if (anno) { var a = rel(anno); pts.push([a.cx, a.bottom + 6]); }
         pts.push([side, r.top + r.height * .3]);
         pts.push([side, r.bottom - r.height * .3]);
         prev = r;
       });
-      // Slip down the left margin past the process section (its own
-      // connector stroke is the spotlight there), then cross to services
-      // through the empty band below the grid
-      if (processGrid) {
+      // Ride the process section's own connector stroke: sample points
+      // along its path (viewBox 1200x110, stretched) so the thread is
+      // literally wired through the four step circles
+      var processStroke = document.querySelector('.process-stroke path.draw');
+      var strokeBox = document.querySelector('.process-stroke');
+      var rodeStroke = false;
+      if (processStroke && strokeBox) {
+        var pr = rel(strokeBox);
+        if (pr.width > 0 && pr.height > 0) {
+          var plen = processStroke.getTotalLength();
+          for (var t = 0; t <= 7; t++) {
+            var pp = processStroke.getPointAtLength(plen * t / 7);
+            pts.push([pr.left + pp.x * pr.width / 1200, pr.top + pp.y * pr.height / 110]);
+          }
+          rodeStroke = true;
+        }
+      }
+      if (!rodeStroke && processGrid) {
         var pg = rel(processGrid);
         pts.push([W * .04, pg.top - 40]);
         pts.push([W * .04, pg.bottom + 50]);
@@ -166,11 +189,18 @@
         pts.push([W * .96, s2.bottom - 20]);
       }
       if (signature) { var sg = rel(signature); pts.push([sg.left + 24, sg.cy]); }
-      // End on the contact form's crop-mark corner
+      // Skim under the drawn email underline...
+      var emailWrap = document.querySelector('.contact-email-wrap');
+      if (emailWrap) { var e = rel(emailWrap); pts.push([e.left + 8, e.bottom + 12]); }
+      // ...then trace the form: in at the top-left crop mark, down the
+      // side, and the pen lifts off at the bottom-right crop mark
       if (form) {
         var f = rel(form);
         pts.push([f.left - 60, f.top - 60]);
         pts.push([f.left - 6, f.top - 6]);
+        pts.push([f.left - 18, f.cy]);
+        pts.push([f.cx, f.bottom + 16]);
+        pts.push([f.right + 8, f.bottom + 8]);
       }
       return pts;
     };
@@ -203,15 +233,48 @@
       return (lo + hi) / 2;
     };
 
-    var updateThread = function () {
-      if (!threadLen) { return; }
+    var tipTarget = function () {
       var tipY = window.innerHeight * 0.78 - mainEl.getBoundingClientRect().top;
-      var drawn = tipY <= 0 ? 0
-        : (tipY >= mainEl.offsetHeight ? threadLen : lenAtY(tipY));
+      if (tipY <= 0) { return 0; }
+      if (tipY >= mainEl.offsetHeight) { return threadLen; }
+      return lenAtY(tipY);
+    };
+    var setDrawn = function (drawn) {
       threadPath.style.strokeDashoffset = String(threadLen - drawn);
       var pt = threadPath.getPointAtLength(drawn);
       threadNib.setAttribute('cx', pt.x);
       threadNib.setAttribute('cy', pt.y);
+    };
+
+    // The thread stays invisible until the hero underline has finished
+    // drawing (~2s), then flows out of it in one gesture down to the
+    // reader's position. Only after that does scroll scrubbing take over.
+    var introDone = reduceMotion;
+    var runIntro = function () {
+      if (introDone || !threadLen) { introDone = true; return; }
+      threadNib.classList.add('scribing');
+      // CSS transition does the drawing; the nib chases the drawn tip
+      threadPath.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(.3, 0, .2, 1)';
+      threadPath.style.strokeDashoffset = String(threadLen - tipTarget());
+      var nibFollow = function () {
+        if (introDone) { return; }
+        var off = parseFloat(window.getComputedStyle(threadPath).strokeDashoffset) || threadLen;
+        var pt = threadPath.getPointAtLength(Math.max(0, threadLen - off));
+        threadNib.setAttribute('cx', pt.x);
+        threadNib.setAttribute('cy', pt.y);
+        window.requestAnimationFrame(nibFollow);
+      };
+      window.requestAnimationFrame(nibFollow);
+      window.setTimeout(function () {
+        threadPath.style.transition = 'none';
+        introDone = true;
+        setDrawn(tipTarget());
+        window.setTimeout(function () { threadNib.classList.remove('scribing'); }, 600);
+      }, 1450);
+    };
+
+    var updateThread = function () {
+      if (threadLen && introDone) { setDrawn(tipTarget()); }
     };
 
     var buildThread = function () {
@@ -225,7 +288,8 @@
         threadNib.style.display = 'none';
       } else {
         threadPath.style.strokeDasharray = threadLen + ' ' + threadLen;
-        updateThread();
+        if (introDone) { setDrawn(tipTarget()); }
+        else { setDrawn(0); } // pen resting at the underline's end
       }
     };
 
@@ -245,6 +309,8 @@
           threadNib.classList.remove('scribing');
         }, 700);
       }, { passive: true });
+      // Hero underline finishes ~2.05s in (300ms kick-off + 1.75s draw)
+      window.setTimeout(runIntro, 2150);
     }
     var rebuildTimer = null;
     window.addEventListener('resize', function () {
