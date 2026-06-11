@@ -106,7 +106,7 @@ main { position: relative; }
 #threadPath {
   fill: none; stroke: var(--ox); stroke-width: 2;
   stroke-linecap: round; stroke-linejoin: round;
-  opacity: .45;
+  opacity: .55;
 }
 #threadNib { fill: var(--ox); opacity: 0; transition: opacity .6s ease .5s; }
 #threadNib.scribing { opacity: .9; transition: opacity .15s ease; }

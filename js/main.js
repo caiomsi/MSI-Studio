@@ -129,7 +129,11 @@
 
       // Pick up where the hero underline leaves off, then keep to the
       // clear right margin so the stroke never crosses the hero copy
-      if (inkWord) { var iw = rel(inkWord); pts.push([iw.right + 12, iw.bottom + 10]); }
+      if (inkWord) {
+        var iw = rel(inkWord);
+        pts.push([iw.right + 12, iw.bottom + 10]);
+        pts.push([W * .9, iw.bottom - 24]); // arc over the hero copy
+      }
       if (spec) {
         var sp = rel(spec);
         pts.push([W * .94, sp.top - 50]);
