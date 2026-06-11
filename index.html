@@ -403,8 +403,9 @@
           </span>
         </div>
 
-        <!-- NOTE: replace YOUR_FORM_ID with a real Formspree endpoint before launch -->
-        <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <!-- Posts to MSI Forms, our own backend (repo: MSI-Forms).
+             The hidden "company" input is a spam honeypot — keep it. -->
+        <form class="contact-form" id="contact-form" action="https://forms.caiomsi.com/api/submit" method="POST">
           <label>
             <span>Name</span>
             <input type="text" name="name" required placeholder="Your name" />
@@ -413,11 +414,13 @@
             <span>Email</span>
             <input type="email" name="email" required placeholder="you@business.com" />
           </label>
+          <input type="text" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <label>
             <span>What do you need?</span>
             <textarea name="message" rows="4" required placeholder="A new site for my..."></textarea>
           </label>
           <button type="submit" class="btn btn-primary btn-block">Send it</button>
+          <p class="form-status" id="form-status" role="status" hidden></p>
         </form>
       </div>
     </section>

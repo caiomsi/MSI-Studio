@@ -374,6 +374,44 @@
     presentBtn.style.display = 'none';
   }
 
+  /* ---- Contact form — posts JSON to MSI Forms, shows result inline ---- */
+  var contactForm = document.getElementById('contact-form');
+  var formStatus = document.getElementById('form-status');
+  if (contactForm && formStatus) {
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = contactForm.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+      formStatus.hidden = true;
+
+      var data = {};
+      new FormData(contactForm).forEach(function (value, key) { data[key] = value; });
+
+      fetch(contactForm.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(data)
+      })
+        .then(function (res) { return res.json().catch(function () { return {}; }); })
+        .then(function (json) {
+          if (json.ok) {
+            contactForm.reset();
+            formStatus.textContent = 'Sent. I’ll get back to you fast.';
+            formStatus.classList.remove('is-error');
+            if (btn) { btn.textContent = 'Sent'; }
+          } else {
+            throw new Error(json.error || 'failed');
+          }
+        })
+        .catch(function () {
+          formStatus.textContent = 'Something went wrong — email me instead.';
+          formStatus.classList.add('is-error');
+          if (btn) { btn.disabled = false; btn.textContent = 'Send it'; }
+        })
+        .finally(function () { formStatus.hidden = false; });
+    });
+  }
+
   /* ---- Footer year ---- */
   var year = document.getElementById('year');
   if (year) { year.textContent = new Date().getFullYear(); }

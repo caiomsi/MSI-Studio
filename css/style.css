@@ -532,6 +532,19 @@ main { position: relative; }
 }
 .contact-form .btn { margin-top: .4rem; }
 
+/* Honeypot field — invisible to humans, bots fill it. Don't remove. */
+.contact-form .hp-field {
+  position: absolute; left: -9999px; width: 1px; height: 1px;
+  opacity: 0; pointer-events: none;
+}
+
+/* Submission result, set by js/main.js */
+.form-status {
+  font-family: var(--font-mono); font-size: .78rem;
+  letter-spacing: .04em; color: var(--ink-soft); margin: 0;
+}
+.form-status.is-error { color: var(--ox); }
+
 /* =========================== FOOTER =========================== */
 .footer { position: relative; border-top: 1px solid var(--ink-line); margin-top: 2rem; }
 .footer::before {
