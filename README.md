@@ -1,7 +1,7 @@
 # MSI Studio
 
 Agency showcase site for **MSI Studio** — a small web-development studio building fast,
-hand-coded static websites for small businesses. Showcases selected work and links out
+custom static websites for small businesses. Showcases selected work and links out
 to each live site.
 
 - **Live:** https://work.caiomsi.com
