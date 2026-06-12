@@ -386,6 +386,10 @@
 
       var data = {};
       new FormData(contactForm).forEach(function (value, key) { data[key] = value; });
+      // Browser autofill can fill the hidden "company" honeypot and get a
+      // real visitor silently treated as a bot — always send it empty here.
+      // The honeypot still catches bots that POST the form fields directly.
+      data.company = '';
 
       fetch(contactForm.action, {
         method: 'POST',
