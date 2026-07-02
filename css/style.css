@@ -470,6 +470,78 @@ main { position: relative; }
 }
 .service p { color: var(--ink-soft); }
 
+/* =========================== PRICING — three plates =========================== */
+.price-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.2rem, 2.4vw, 2rem);
+  align-items: stretch;
+}
+.price-card {
+  position: relative;
+  display: flex; flex-direction: column;
+  border: 1px solid var(--ink-line);
+  background: var(--paper-2);
+  padding: clamp(1.6rem, 2.6vw, 2.2rem);
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+.price-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(28,23,18,.5);
+  box-shadow: 0 26px 48px -30px rgba(28, 23, 18, .45);
+}
+.price-card.is-featured { border-color: var(--ox); }
+/* crop-mark corners on the featured plate, like the contact form proof */
+.price-card.is-featured::before,
+.price-card.is-featured::after {
+  content: ""; position: absolute; width: 22px; height: 22px; pointer-events: none;
+}
+.price-card.is-featured::before { top: -8px; left: -8px; border-top: 2px solid var(--ox); border-left: 2px solid var(--ox); }
+.price-card.is-featured::after { bottom: -8px; right: -8px; border-bottom: 2px solid var(--ox); border-right: 2px solid var(--ox); }
+.price-flag {
+  position: absolute; top: -11px; right: 14px;
+  font-family: var(--font-mono); font-size: .7rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--paper); background: var(--ox);
+  padding: .2rem .6rem; border-radius: var(--radius-sm);
+}
+.price-tier {
+  font-family: var(--font-mono); font-size: .78rem;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ox);
+}
+.price-amount {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(2.1rem, 3.4vw, 2.8rem); line-height: 1.05;
+  color: var(--ink); margin: .55rem 0 .7rem;
+}
+.price-from {
+  font-family: var(--font-mono); font-size: .74rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-soft); margin-right: .35rem;
+}
+.price-desc { color: var(--ink-soft); font-size: .98rem; margin-bottom: 1.2rem; }
+.price-list {
+  border-top: 1px solid var(--ink-faint);
+  margin-bottom: 1.6rem; flex: 1;
+}
+.price-list li {
+  display: flex; gap: .6rem; align-items: baseline;
+  padding: .6rem 0; font-size: .93rem; color: var(--ink);
+  border-bottom: 1px solid var(--ink-faint);
+}
+.price-list li::before { content: "—"; color: var(--ox); flex: 0 0 auto; }
+.price-note {
+  margin-top: clamp(1.6rem, 3vw, 2.4rem);
+  border: 1px solid var(--ink-line);
+  border-left: 3px solid var(--ox);
+  background: var(--paper-2);
+  padding: 1.15rem 1.4rem;
+}
+.price-note p { color: var(--ink-soft); font-size: .98rem; max-width: none; }
+.price-note b { font-family: var(--font-mono); font-weight: 500; color: var(--ox); }
+@media (max-width: 920px) {
+  .price-grid { grid-template-columns: 1fr; max-width: 480px; }
+}
+
 /* =========================== ABOUT =========================== */
 .about-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(2.5rem, 5vw, 4.5rem); align-items: start; }
 .about-text p { font-size: 1.1rem; color: var(--ink-soft); margin-bottom: 1.1rem; max-width: 54ch; }
@@ -578,7 +650,7 @@ main { position: relative; }
     border-bottom: 1px solid var(--ink-line);
     max-height: 0; overflow: hidden; transition: max-height .35s ease;
   }
-  .nav-links.open { max-height: 360px; }
+  .nav-links.open { max-height: 420px; }
   .nav-links a { padding: 1rem var(--gutter); border-top: 1px solid var(--ink-faint); }
   .nav-links a:not(.nav-cta)::after { display: none; }
   .nav-cta { border: 0; border-top: 1px solid var(--ink-faint); border-radius: 0; color: var(--ox); }

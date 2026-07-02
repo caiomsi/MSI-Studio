@@ -323,7 +323,7 @@
 
   /* ---- Scroll-reveal via IntersectionObserver ---- */
   var revealTargets = document.querySelectorAll(
-    '.section-head, .work-card, .step, .service, .about-text, .colophon, .contact-intro, .contact-form'
+    '.section-head, .work-card, .step, .service, .price-card, .price-note, .about-text, .colophon, .contact-intro, .contact-form'
   );
   if ('IntersectionObserver' in window && revealTargets.length) {
     revealTargets.forEach(function (el) { el.classList.add('fade-in'); });
